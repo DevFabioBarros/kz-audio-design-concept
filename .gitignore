@@ -7,6 +7,11 @@ dist/
 # dependencies
 node_modules/
 
+# Local source archive and generated design artifacts
+/site antigo/
+/graphify-out/
+/tmp/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
@@ -15,7 +20,12 @@ pnpm-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
+
+# Windows-specific files
+Thumbs.db
+Desktop.ini
 
 # macOS-specific files
 .DS_Store

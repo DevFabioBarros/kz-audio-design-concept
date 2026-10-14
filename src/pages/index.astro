@@ -1,11 +1,185 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+import { products } from '../data/products';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featuredProducts = [products[0], products[4], products[8]];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="KZ × ROLEX — Conceito visual não oficial"
+	description="Estudo visual conceitual KZ × ROLEX: nove interpretações de áudio e design, apresentadas em um filme de produto exclusivo."
+>
+	<main>
+		<section class="film-hero" id="hero-scroll-track" aria-labelledby="hero-title">
+			<video class="film-video" src="/produtos/Comercial%202.mp4" autoplay muted loop playsinline preload="metadata" poster="/produtos/imperial-pave-detail.png" aria-label="Filme conceitual KZ × ROLEX">
+				Seu navegador não suporta reprodução de vídeo.
+			</video>
+			<div class="film-shade" aria-hidden="true"></div>
+			<div class="film-caption">
+				<div class="film-copy reveal">
+					<p class="hero-eyebrow"><span class="partnership-mark">KZ × ROLEX</span> · CONCEITO VISUAL NÃO OFICIAL</p>
+					<h1 id="hero-title">Precisão<br /><em>em harmonia.</em></h1>
+					<p class="hero-description">Nove edições. Uma nova maneira de sentir cada detalhe.</p>
+					<a class="hero-link" href="/produtos">Explore a coleção <span aria-hidden="true">↗</span></a>
+				</div>
+			</div>
+			<span class="film-index" aria-hidden="true">FILME 02 / ESTUDO VISUAL</span>
+		</section>
+
+		<div class="expand-line" aria-hidden="true"></div>
+		<div class="collection-intro-band" aria-label="Coleção conceitual KZ × ROLEX">
+			<span>DESIGN PARA A ESCUTA</span><span class="band-star">✦</span>
+			<span>MATÉRIA · FORMA · SOM</span><span class="band-star">✦</span>
+			<span>ESTÉTICA CONTEMPORÂNEA</span>
+		</div>
+
+		<section class="atelier" id="atelier-craft" aria-labelledby="atelier-title">
+			<div class="atelier-copy reveal">
+				<p class="eyebrow">O ATELIÊ · CONCEITO KZ × ROLEX</p>
+				<h2 id="atelier-title">Detalhe que se vê.<br /><em>Presença que se ouve.</em></h2>
+				<p>Cada edição nasce do encontro entre desenho, materiais expressivos e a busca por uma experiência de escuta pessoal. Descubra os nove acabamentos e escolha o que fala por você.</p>
+				<a class="atelier-link" href="/produtos">Ver coleção e valores <span aria-hidden="true">↗</span></a>
+			</div>
+			<div class="atelier-image reveal reveal-from-right">
+				<img src="/produtos/imperial-pave-detail.png" alt="Detalhe da edição Imperial Pavé no estudo visual KZ × ROLEX" loading="lazy" width="1254" height="1254" />
+				<span>01 — IMPERIAL PAVÉ</span>
+			</div>
+		</section>
+
+		<section class="design-fold" aria-labelledby="design-title">
+			<div class="design-fold-copy reveal">
+				<p class="eyebrow">LINGUAGEM · FORMA E FUNÇÃO</p>
+				<h2 id="design-title">A identidade<br /><em>está nos detalhes.</em></h2>
+				<p>Um estudo visual que aproxima a engenharia acústica da KZ de códigos clássicos da relojoaria: proporção, contraste e atenção ao acabamento. Uma interpretação conceitual, não uma colaboração oficial.</p>
+			</div>
+			<figure class="design-fold-image reveal">
+				<img src="/produtos/mirrored-24k-detail.png" alt="Detalhe espelhado dourado da edição Mirrored 24K" loading="lazy" width="1254" height="1254" />
+				<figcaption>DESENHO CONTEMPORÂNEO · REFERÊNCIAS CLÁSSICAS</figcaption>
+			</figure>
+		</section>
+
+		<section class="sound-fold" aria-labelledby="sound-title">
+			<div class="sound-heading reveal">
+				<p class="eyebrow">A EXPERIÊNCIA · ALÉM DA FORMA</p>
+				<h2 id="sound-title">Joias para os olhos.<br /><em>Presença para a escuta.</em></h2>
+			</div>
+			<div class="sound-copy reveal">
+				<p>O luxo também se revela no que não se vê: uma assinatura sonora pensada para dar espaço aos detalhes, equilíbrio à música e profundidade à experiência.</p>
+				<p class="sound-note">Uma direção conceitual de escuta premium — sem alegações de desempenho ou especificações técnicas.</p>
+			</div>
+		</section>
+
+		<section class="materials-fold" aria-labelledby="materials-title">
+			<header class="materials-heading reveal">
+				<p class="eyebrow">MATÉRIA · SUPERFÍCIE · LUZ</p>
+				<h2 id="materials-title">Acabamentos com<br /><em>presença própria.</em></h2>
+			</header>
+			<div class="materials-grid reveal-stagger">
+				{[products[0], products[2], products[6]].map((product, index) => (
+					<article class="material-card" style={`--reveal-delay: ${index * 120}ms`}>
+						<img src={product.image} alt={product.alt} loading="lazy" width="1254" height="1254" />
+						<div><span>{product.finish}</span><h3>{product.name}</h3></div>
+					</article>
+				))}
+			</div>
+			<p class="materials-note reveal">Ouro luminoso, contraste escuro e reflexos frios: três caminhos visuais dentro de uma coleção conceitual.</p>
+		</section>
+
+		<section class="selection-fold" aria-labelledby="selection-title">
+			<header class="selection-heading reveal">
+				<div><p class="eyebrow">EDIÇÕES EM DESTAQUE · 03 DE 09</p><h2 id="selection-title">Uma coleção.<br /><em>Nove expressões.</em></h2></div>
+			<a href="/produtos" class="atelier-link">Ver todas as edições <span aria-hidden="true">↗</span></a>
+			</header>
+			<div class="selection-grid reveal-stagger">
+				{featuredProducts.map((product, index) => (
+					<a class="selection-card" href={`/produtos/${product.slug}`} style={`--reveal-delay: ${index * 120}ms`}>
+						<img src={product.image} alt={product.alt} loading="lazy" width="1254" height="1254" />
+						<span>{product.finish}</span><h3>{product.name}</h3>
+					</a>
+				))}
+			</div>
+			<p class="selection-note reveal">Valores e disponibilidade são ilustrativos e devem ser confirmados. Este estudo não representa parceria oficial com a Rolex.</p>
+		</section>
+
+		<section class="home-collection-cta" aria-labelledby="home-collection-cta-title">
+			<p class="eyebrow">A COLEÇÃO COMPLETA · NOVE EDIÇÕES</p>
+			<h2 id="home-collection-cta-title">Encontre a sua<br /><em>maneira de ouvir.</em></h2>
+			<p>Explore acabamentos, detalhes e valores de cada edição.</p>
+			<Button href="/produtos" className="home-collection-cta-button">Descobrir a coleção <span aria-hidden="true">↗</span></Button>
+		</section>
+	</main>
 </Layout>
+
+<style>
+	:global(body) { background: #100f0d; }
+	.film-hero { position: relative; min-height: min(900px, 100svh); height: 820px; max-height: 100svh; overflow: hidden; background: #090807; color: #f2eee7; }
+	.film-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.08); will-change: transform; }
+	.film-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,7,6,.84) 0%, rgba(8,7,6,.48) 40%, rgba(8,7,6,.08) 78%), linear-gradient(0deg, rgba(8,7,6,.42), transparent 28%); }
+	.film-caption { position: absolute; top: 50%; left: max(8vw, calc((100vw - 1440px)/2)); width: min(590px, 80vw); --caption-offset: -38%; transform: translateY(calc(var(--caption-offset) - var(--hero-scroll-shift, 0px))); }
+	.film-copy { transition: opacity .25s ease; }
+	.hero-eyebrow, .eyebrow { color: #c8a97e; font: 10px var(--font-mono); letter-spacing: .24em; }
+	.hero-eyebrow { margin: 0 0 22px; }
+	.partnership-mark { color: #9fb9a9; letter-spacing: .12em; }
+	.film-caption h1 { margin: 0; font: 400 clamp(66px, 9vw, 132px)/.88 var(--font-display); letter-spacing: .025em; text-transform: uppercase; }
+	.film-caption h1 em, .atelier h2 em { color: #c8a97e; font: italic 400 1em/.95 var(--font-serif); text-transform: none; }
+	.hero-description { margin: 24px 0 30px; color: #e2d8c9; font-size: 15px; letter-spacing: .035em; }
+	.hero-link, .atelier-link { display: inline-flex; align-items: center; gap: 20px; padding: 13px 0; border-bottom: 1px solid rgba(200,169,126,.75); color: #f2eee7; font-size: 11px; letter-spacing: .13em; text-decoration: none; text-transform: uppercase; }
+	.hero-link span, .atelier-link span { color: #c8a97e; font-size: 16px; }
+	.film-index { position: absolute; right: 5vw; bottom: 26px; color: rgba(242,238,231,.75); font: 9px var(--font-mono); letter-spacing: .18em; }
+	.collection-intro-band { display: flex; justify-content: center; align-items: center; gap: clamp(16px, 4vw, 60px); min-height: 58px; border-bottom: 1px solid rgba(200,169,126,.18); color: #c8a97e; font: 9px var(--font-mono); letter-spacing: .16em; }
+	.band-star { color: #766249; }
+	.atelier { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 8vw; width: min(100% - 64px, 1240px); margin: 0 auto; padding: 50px 0 130px; }
+	.atelier-copy { max-width: 520px; }
+	.atelier-copy .eyebrow { margin-bottom: 18px; }
+	.atelier h2 { margin: 0 0 20px; color: #f2eee7; font: 400 clamp(40px, 5vw, 68px)/1.02 var(--font-display); }
+	.atelier-copy > p:not(.eyebrow) { max-width: 480px; margin: 0 0 26px; color: #b9b0a3; font-size: 14px; line-height: 1.85; }
+	.atelier-image { position: relative; }
+	.reveal-from-right { opacity: 0; transform: translateX(38px); filter: blur(8px); transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury), filter 1s var(--ease-luxury); }
+	.reveal-from-right.is-active { opacity: 1; transform: translateX(0); filter: none; }
+	.atelier-image img { display: block; width: 100%; max-height: 540px; object-fit: cover; }
+	.atelier-image span { position: absolute; right: 14px; bottom: 12px; color: #f2eee7; font: 9px var(--font-mono); letter-spacing: .16em; }
+	.design-fold, .sound-fold, .materials-fold, .selection-fold { width: min(100% - 64px, 1240px); margin: 0 auto; padding: 90px 0 120px; color: #f2eee7; }
+	.design-fold { display: grid; grid-template-columns: .82fr 1.18fr; align-items: center; gap: clamp(40px, 8vw, 120px); border-top: 1px solid rgba(200,169,126,.18); }
+	.design-fold-copy { max-width: 460px; }
+	.design-fold h2, .materials-heading h2, .selection-heading h2 { margin: 0; font: 400 clamp(42px, 5.5vw, 72px)/.98 var(--font-display); }
+	.design-fold h2 em, .materials-heading h2 em, .selection-heading h2 em { color: #c8a97e; font: italic 400 1em/.98 var(--font-serif); }
+	.design-fold-copy > p:last-child { margin: 24px 0 0; color: #b9b0a3; font-size: 14px; line-height: 1.9; }
+	.design-fold-image { position: relative; margin: 0; overflow: hidden; background: #090807; }
+	.design-fold-image img { display: block; width: 100%; max-height: 650px; object-fit: cover; }
+	.design-fold-image figcaption { position: absolute; right: 16px; bottom: 14px; color: #f2eee7; font: 9px var(--font-mono); letter-spacing: .13em; text-shadow: 0 1px 8px #000; }
+	.sound-fold { display: grid; grid-template-columns: 1fr .8fr; align-items: end; gap: 8vw; border-top: 1px solid rgba(200,169,126,.18); }
+	.sound-fold h2 { margin: 0; font: 400 clamp(42px, 5.5vw, 72px)/.98 var(--font-display); }
+	.sound-fold h2 em { color: #c8a97e; font: italic 400 1em/.98 var(--font-serif); }
+	.sound-copy { max-width: 440px; }
+	.sound-copy > p:first-child { margin: 0; color: #d4cabe; font: 400 clamp(17px, 1.7vw, 21px)/1.7 var(--font-serif); }
+	.sound-copy .sound-note { margin: 20px 0 0; color: #9c9386; font-size: 11px; line-height: 1.7; }
+	.materials-fold { border-top: 1px solid rgba(200,169,126,.18); }
+	.materials-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 34px; }
+	.materials-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+	.material-card { position: relative; min-height: 360px; overflow: hidden; background: #090807; }
+	.material-card::after { position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.82)); content: ''; }
+	.material-card img { display: block; width: 100%; height: 100%; min-height: 360px; object-fit: cover; transition: transform .7s ease; }
+	.material-card:hover img, .selection-card:hover img { transform: scale(1.035); }
+	.material-card > div { position: absolute; z-index: 1; right: 20px; bottom: 20px; left: 20px; }
+	.material-card span, .selection-card > span { color: #d6bd94; font: 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+	.material-card h3, .selection-card h3 { margin: 8px 0 0; color: #f2eee7; font: 400 25px var(--font-display); }
+	.materials-note, .selection-note { margin: 22px 0 0; color: #9c9386; font-size: 11px; line-height: 1.7; }
+	.selection-fold { border-top: 1px solid rgba(200,169,126,.18); }
+	.selection-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 34px; }
+	.selection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+	.selection-card { color: inherit; text-decoration: none; }
+	.selection-card img { display: block; width: 100%; aspect-ratio: 1 / 1.05; object-fit: cover; margin-bottom: 16px; transition: transform .7s ease; }
+	.selection-card h3 { font-size: 28px; }
+	.home-collection-cta { display: grid; justify-items: center; gap: 18px; margin: 0 auto; padding: 92px 24px 112px; border-top: 1px solid rgba(200,169,126,.18); text-align: center; color: #f2eee7; background: radial-gradient(ellipse at 50% 0%, rgba(200,169,126,.09), transparent 62%); }
+	.home-collection-cta .eyebrow { margin: 0; }
+	.home-collection-cta h2 { margin: 0; font: 400 clamp(40px, 5.5vw, 68px)/1 var(--font-display); }
+	.home-collection-cta h2 em { color: #c8a97e; font: italic 400 1em/.98 var(--font-serif); }
+	.home-collection-cta > p:not(.eyebrow) { margin: 0 0 8px; color: #b9b0a3; font-size: 14px; line-height: 1.7; }
+	.home-collection-cta :global(.home-collection-cta-button) { min-height: 52px; gap: 18px; padding-inline: 30px; }
+	.home-collection-cta :global(.home-collection-cta-button:focus-visible) { outline: 2px solid #fff0d0; outline-offset: 4px; }
+	@media (max-width: 700px) { .design-fold, .sound-fold, .materials-fold, .selection-fold { width: min(100% - 32px, 1240px); padding: 64px 0 80px; } .design-fold { grid-template-columns: 1fr; gap: 28px; } .sound-fold { grid-template-columns: 1fr; gap: 26px; } .design-fold-image { order: -1; } .materials-heading { display: block; } .materials-grid, .selection-grid { grid-template-columns: 1fr; gap: 18px; } .material-card, .material-card img { min-height: 300px; } .selection-heading { align-items: start; flex-direction: column; } }
+	@media (max-width: 700px) { .home-collection-cta { padding: 72px 20px 84px; } .home-collection-cta .eyebrow { font-size: 8px; letter-spacing: .13em; } .home-collection-cta > p:not(.eyebrow) { max-width: 300px; font-size: 13px; } .home-collection-cta :global(.home-collection-cta-button) { min-height: 48px; padding-inline: 20px; font-size: 10px; letter-spacing: .16em; } }
+	@media (max-width: 700px) { .film-hero { height: 84svh; min-height: min(600px, 100svh); } .film-video { object-position: 58% center; } .film-shade { background: linear-gradient(90deg, rgba(8,7,6,.75), rgba(8,7,6,.12)), linear-gradient(0deg, rgba(8,7,6,.48), transparent 38%); } .film-caption { left: 24px; width: calc(100% - 48px); --caption-offset: -28%; } .film-caption h1 { font-size: clamp(54px, 15vw, 90px); } .hero-eyebrow, .eyebrow { max-width: 100%; font-size: 8px; letter-spacing: .12em; line-height: 1.6; } .hero-description { max-width: 280px; font-size: 13px; line-height: 1.6; } .film-index { right: 16px; bottom: 18px; font-size: 7px; letter-spacing: .1em; } .collection-intro-band { flex-wrap: wrap; gap: 10px 16px; padding: 14px; font-size: 8px; } .atelier { grid-template-columns: 1fr; gap: 32px; width: min(100% - 32px, 1240px); padding: 20px 0 80px; } .atelier-image { order: -1; } }
+	@media (prefers-reduced-motion: reduce) { .film-video { display: none; transform: none; } .film-hero { background: #17130f url('/produtos/imperial-pave-detail.png') center/cover no-repeat; } .film-copy, .reveal-from-right { opacity: 1; filter: none; transform: none; transition: none; } }
+</style>

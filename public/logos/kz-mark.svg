@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 462 259" role="img" aria-label="KZ">
+  <defs>
+    <linearGradient id="kz-rolex" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a27418" />
+      <stop offset="100%" stop-color="#005e37" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#kz-rolex)" fill-rule="evenodd" d="M0 0h462v259H0z M39 36h86l-86 96z M39 132l99 90H39z M92 132l85-96h243L283 222h-91z M332 222l90-123v123z" />
+</svg>

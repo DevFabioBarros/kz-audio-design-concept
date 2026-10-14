@@ -1,46 +1,56 @@
-# Astro Starter Kit: Basics
+# KZ Audio — conceito de design
 
-```sh
-npm create astro@latest -- --template basics
+Estudo visual independente que combina o universo do áudio da KZ com referências estéticas da alta relojoaria. O site apresenta uma coleção conceitual de nove edições, com filme de produto, catálogo e páginas individuais.
+
+> **Projeto conceitual e não oficial.** Não representa parceria, endosso ou vínculo comercial com a Rolex. Produtos, preços, acabamentos e disponibilidade são ilustrativos; não há venda ou envio real de dados pelo site.
+
+## Experiência
+
+- Página inicial editorial com filme e apresentação da proposta.
+- Catálogo com nove conceitos de produto e valores ilustrativos.
+- Página de detalhes para cada edição, incluindo formulário de contato demonstrativo.
+- Animações de rolagem e layout responsivo para celular e desktop.
+
+## Tecnologias
+
+- [Astro](https://astro.build/)
+- TypeScript para os dados da coleção
+- CSS e JavaScript nativos
+
+## Requisitos
+
+- Node.js `>=22.12.0`
+- npm
+
+## Desenvolvimento
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+O servidor local informa a URL no terminal (normalmente `http://localhost:4321`).
 
-## 🚀 Project Structure
+## Build de produção
 
-Inside of your Astro project, you'll see the following folders and files:
+```bash
+npm run build
+npm run preview
+```
+
+## Estrutura do projeto
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+src/
+  components/       Componentes Astro reutilizáveis
+  data/products.ts  Conteúdo e dados das nove edições
+  layouts/          Layout compartilhado
+  pages/            Página inicial, catálogo e detalhes dinâmicos
+public/
+  css/              Estilos do site
+  js/               Interações e animações
+  logos/            Marcas usadas no conceito visual
+  produtos/         Imagens e filme da coleção
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Os diretórios `site antigo/`, `graphify-out/` e `tmp/` contêm referências ou artefatos locais e não fazem parte do site publicado.

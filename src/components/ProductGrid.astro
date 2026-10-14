@@ -1,0 +1,79 @@
+---
+import { products } from '../data/products';
+
+interface Props {
+	showHeading?: boolean;
+	compact?: boolean;
+}
+
+const { showHeading = true, compact = false } = Astro.props;
+---
+
+<section class:list={['collection', { 'collection-compact': compact }]} id="colecao" aria-labelledby={showHeading ? 'collection-title' : undefined} aria-label={!showHeading ? 'Nove edições da coleção' : undefined}>
+	{showHeading && (
+		<header class="collection-heading reveal">
+			<div>
+				<p class="eyebrow">A COLEÇÃO · 09 EDIÇÕES</p>
+				<h2 id="collection-title">Objetos feitos<br /><em>para serem ouvidos.</em></h2>
+			</div>
+			<p class="collection-intro">Nove interpretações de uma mesma obsessão: transformar a escuta em experiência. Descubra os acabamentos e encontre a sua edição.</p>
+		</header>
+	)}
+	<div class="product-grid reveal-stagger" aria-label="Nove produtos da coleção">
+		{products.map((product, index) => (
+			<article class:list={['product-card', { 'product-card-featured': index === 0 && !compact }]} style={`--reveal-delay: ${index * 75}ms`}>
+				<a class="product-image" href={`/produtos/${product.slug}`} aria-label={`Conheça ${product.name}`}>
+					<img src={product.image} alt={product.alt} loading={index < 3 ? 'eager' : 'lazy'} width="1254" height="1254" />
+					<span class="image-index">{String(index + 1).padStart(2, '0')}</span>
+				</a>
+				<div class="product-info">
+					<div class="product-meta">
+						<span>{product.finish}</span>
+						<span class:list={['product-status', { 'is-concept': product.status === 'Conceito' }]}>{product.status}</span>
+					</div>
+					<h3>{product.name}</h3>
+					<strong class="product-price">{product.price} <small>USD</small></strong>
+					<p>{product.description}</p>
+					<div class="product-bottom">
+						<a href={`/produtos/${product.slug}`} aria-label={`Ver detalhes de ${product.name}`}>Descobrir <span aria-hidden="true">↗</span></a>
+					</div>
+				</div>
+			</article>
+		))}
+	</div>
+	<p class="collection-note reveal">Os seis últimos itens são conceitos visuais. Todos os valores são ilustrativos e devem ser confirmados antes de qualquer oferta comercial.</p>
+</section>
+
+<style>
+	.collection { width: min(100% - 64px, 1440px); margin: 0 auto; padding: 112px 0 100px; color: var(--text-bone); }
+	.collection-heading { display: flex; align-items: end; justify-content: space-between; gap: 36px; margin-bottom: 40px; }
+	.eyebrow { margin: 0 0 18px; color: var(--gold-light); font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; }
+	.collection-heading h2 { margin: 0; font-family: var(--font-display); font-size: clamp(42px, 6vw, 76px); font-weight: 400; letter-spacing: .015em; line-height: .98; }
+	.collection-heading h2 em { color: var(--gold-light); font-family: var(--font-serif); font-weight: 400; }
+	.collection-intro { max-width: 390px; margin: 0 0 4px; color: var(--text-sand); font-size: 14px; line-height: 1.8; }
+	.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 22px; }
+	.product-card { min-width: 0; }
+	.product-image { position: relative; display: block; aspect-ratio: 1 / 1.08; overflow: hidden; background: #090807; }
+	.product-image::after { position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.38)); content: ''; pointer-events: none; }
+	.product-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+	.product-card:hover .product-image img { transform: scale(1.035); }
+	.image-index { position: absolute; z-index: 1; right: 16px; bottom: 14px; color: #f2eee7; font: 10px var(--font-mono); letter-spacing: .12em; }
+	.product-info { padding: 17px 2px 0; }
+	.product-meta { display: flex; justify-content: space-between; gap: 10px; color: var(--gold-light); font: 9px/1.5 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+	.product-status { flex: 0 0 auto; color: var(--text-muted); }
+	.product-status.is-concept { color: #c9a889; }
+	.product-info h3 { margin: 12px 0 7px; font: 500 clamp(20px, 2vw, 27px)/1.2 var(--font-display); letter-spacing: .025em; }
+	.product-price { display: block; margin: 0 0 12px; color: var(--gold-pale); font: 500 clamp(19px, 2vw, 25px) var(--font-mono); letter-spacing: .015em; }
+	.product-price small { color: var(--text-muted); font-size: 9px; letter-spacing: .08em; }
+	.product-info > p { min-height: 44px; margin: 0; color: var(--text-sand); font-size: 12px; line-height: 1.65; }
+	.product-bottom { display: flex; justify-content: flex-end; gap: 12px; margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--border-gold-subtle); }
+	.product-bottom a { color: var(--text-bone); font-size: 11px; text-decoration-color: var(--gold-dark); text-underline-offset: 5px; }
+	.product-bottom a:hover { color: var(--gold-light); }
+	.collection-note { margin: 24px 0 0; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+	.collection-compact { padding-top: 30px; }
+	.collection-compact .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	.product-image:focus-visible, .product-bottom a:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+	@media (max-width: 900px) { .collection { width: min(100% - 40px, 1440px); } .collection-heading { align-items: start; flex-direction: column; } .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; } }
+	@media (max-width: 600px) { .collection { width: min(100% - 32px, 1440px); padding: 72px 0; } .collection-compact { padding-top: 24px; } .collection-heading h2 { font-size: clamp(38px, 10vw, 56px); } .product-grid, .collection-compact .product-grid { grid-template-columns: 1fr; gap: 26px; } .product-info > p { min-height: 0; } .product-image { aspect-ratio: 1 / .92; } }
+	@media (prefers-reduced-motion: reduce) { .product-image img { transition: none; } }
+</style>

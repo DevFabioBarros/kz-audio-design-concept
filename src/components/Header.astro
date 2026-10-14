@@ -1,0 +1,24 @@
+---
+import Button from './Button.astro';
+---
+
+<header class="luxury-header" id="luxury-nav-header">
+	<a href="/#hero-scroll-track" class="brand-logo brand-lockup" id="header-brand-logo" aria-label="KZ e Rolex — conceito visual não oficial">
+		<span class="kz-mark"><img src="/logos/kz-mark.svg" alt="" /></span>
+		<span class="brand-cross" aria-hidden="true">×</span>
+		<img class="rolex-mark" src="/logos/rolex.png" alt="" />
+	</a>
+
+	<nav class="nav-menu" aria-label="Navegação Principal">
+		<a href="/#hero-scroll-track" class="nav-link">O FILME</a>
+		<a href="/#atelier-craft" class="nav-link">O ATELIÊ</a>
+		<a href="/produtos" class="nav-link">COLEÇÃO</a>
+	</nav>
+
+	<div class="header-actions">
+		<Button href="/produtos" id="btn-acquire-nav">
+			<span>VER COLEÇÃO</span>
+			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+		</Button>
+	</div>
+</header>
