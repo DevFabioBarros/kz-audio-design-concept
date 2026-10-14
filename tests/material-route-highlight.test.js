@@ -6,6 +6,7 @@ import test from 'node:test';
 test('material routes trigger a one-pass gold sheen on the destination product card', async () => {
 	const script = await readFile(new URL('../public/js/luxury.js', import.meta.url), 'utf8');
 	const grid = await readFile(new URL('../src/components/ProductGrid.astro', import.meta.url), 'utf8');
+	const detail = await readFile(new URL('../src/pages/produtos/[slug].astro', import.meta.url), 'utf8');
 	let onReady;
 	let observerCallback;
 	const route = { hash: '#product-example', addEventListener(_type, callback) { this.onClick = callback; } };
@@ -44,7 +45,9 @@ test('material routes trigger a one-pass gold sheen on the destination product c
 
 	assert.equal(click.defaultPrevented, false, 'the native anchor must still perform its jump');
 	assert.equal(classes.has('is-shining'), true, 'the destination card must catch the light');
-	target.listeners.animationend({ target, animationName: 'product-frame-glow' });
+	target.listeners.animationend({ target: route, animationName: 'finish-sheen-pass' });
 	assert.equal(classes.has('is-shining'), false, 'the glow must end after its single pass');
-	assert.match(grid, /product-image-glint/, 'the product image must receive a soft reflected highlight');
+	assert.match(grid, /finish-sheen/, 'the product image must receive a shared soft reflected highlight');
+	assert.match(detail, /detail-image[^\n]*finish-sheen|finish-sheen[^\n]*detail-image/, 'product detail imagery must use the same highlight treatment');
+	assert.doesNotMatch(grid, /product-frame-glow/, 'the selected card must not draw a glowing frame');
 });

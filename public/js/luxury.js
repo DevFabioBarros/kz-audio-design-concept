@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initHeaderScroll();
+  initMaterialSelector();
   initMaterialRouteHighlights();
 });
 
@@ -47,6 +48,52 @@ function initHeaderScroll() {
   }, { passive: true });
 }
 
+function initMaterialSelector() {
+  const selector = document.querySelector('[data-material-selector]');
+  if (!selector) return;
+
+  const choices = Array.from(selector.querySelectorAll('[data-material-choice]'));
+  const stage = selector.querySelector('[data-material-stage]');
+  const image = selector.querySelector('[data-material-image]');
+  const title = selector.querySelector('[data-material-title]');
+  const name = selector.querySelector('[data-material-name]');
+  const finish = selector.querySelector('[data-material-finish]');
+  const description = selector.querySelector('[data-material-description]');
+  const count = selector.querySelector('[data-material-count]');
+  const detail = selector.querySelector('[data-material-detail]');
+  const route = selector.querySelector('[data-material-route]');
+  if (!choices.length || !stage || !image || !title || !name || !finish || !description || !count || !detail || !route) return;
+
+  choices.forEach(choice => {
+    choice.addEventListener('click', () => {
+      if (choice.classList.contains('is-selected')) return;
+
+      choices.forEach(option => {
+        const selected = option === choice;
+        option.setAttribute('aria-pressed', String(selected));
+        option.classList.toggle('is-selected', selected);
+      });
+
+      const { title: selectedTitle, name: selectedName, finish: selectedFinish, description: selectedDescription, count: selectedCount, image: selectedImage, alt, slug } = choice.dataset;
+      image.removeAttribute('srcset');
+      image.removeAttribute('sizes');
+      image.src = selectedImage;
+      image.alt = alt;
+      title.textContent = selectedTitle;
+      name.textContent = selectedName;
+      finish.textContent = selectedFinish;
+      description.textContent = selectedDescription;
+      count.textContent = selectedCount;
+      detail.href = `/produtos/${slug}`;
+      detail.setAttribute('aria-label', `Conheça ${selectedName}`);
+      route.href = `#product-${slug}`;
+      route.setAttribute('aria-label', `Encontrar ${selectedName} no catálogo`);
+      stage.classList.remove('is-transitioning');
+      requestAnimationFrame(() => stage.classList.add('is-transitioning'));
+    });
+  });
+}
+
 function initMaterialRouteHighlights() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -64,7 +111,7 @@ function initMaterialRouteHighlights() {
 
         target.classList.remove('is-shining');
         const finishShine = event => {
-          if (event.target !== target || event.animationName !== 'product-frame-glow') return;
+          if (event.animationName !== 'finish-sheen-pass') return;
           target.classList.remove('is-shining');
           target.removeEventListener('animationend', finishShine);
         };

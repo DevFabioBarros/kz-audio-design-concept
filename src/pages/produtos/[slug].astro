@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { products } from '../../data/products';
+import { Image } from 'astro:assets';
 
 export function getStaticPaths() {
 	return products.map((product, index) => ({
@@ -27,8 +28,8 @@ const isConcept = product.status === 'Conceito';
 		</nav>
 
 		<section class="detail-layout" aria-labelledby="product-title">
-			<figure class="detail-image reveal">
-				<img src={product.image} alt={product.alt} width="1254" height="1254" fetchpriority="high" />
+			<figure class="detail-image finish-sheen reveal">
+				<Image src={product.image} alt={product.alt} layout="constrained" sizes="(max-width: 900px) calc(100vw - 40px), 46vw" width={1254} height={1254} loading="eager" fetchpriority="high" />
 				<figcaption>KZ × ROLEX · ESTUDO VISUAL NÃO OFICIAL</figcaption>
 			</figure>
 
@@ -36,8 +37,12 @@ const isConcept = product.status === 'Conceito';
 				<p class="detail-kicker">EDIÇÃO {String(products.indexOf(product) + 1).padStart(2, '0')} / 09</p>
 				<p class="detail-status" class:is-concept={isConcept}>{product.status}</p>
 				<h1 id="product-title">{product.name}</h1>
-				<p class="detail-finish">{product.finish}</p>
 				<p class="detail-description">{product.description}</p>
+				<dl class="detail-dossier" aria-label="Ficha da edição">
+					<div><dt>Acabamento</dt><dd>{product.finish}</dd></div>
+					<div><dt>Valor ilustrativo</dt><dd class="dossier-price">{product.price} <small>USD</small></dd></div>
+					<div><dt>Status da edição</dt><dd>{product.status}</dd></div>
+				</dl>
 
 				<p class="detail-disclaimer">
 					{isConcept
@@ -87,7 +92,7 @@ const isConcept = product.status === 'Conceito';
 	.breadcrumbs a { color: var(--text-sand); text-decoration: none; }
 	.breadcrumbs a:hover { color: var(--gold-light); }
 	.detail-layout { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr); align-items: center; gap: clamp(40px, 7vw, 100px); }
-	.detail-image { position: relative; margin: 0; background: #090807; }
+	.detail-image { position: relative; overflow: hidden; margin: 0; background: #090807; }
 	.detail-image img { display: block; width: 100%; max-height: 720px; aspect-ratio: 1; object-fit: contain; }
 	.detail-image figcaption { position: absolute; right: 18px; bottom: 16px; color: #f2eee7; font: 9px var(--font-mono); letter-spacing: .14em; text-shadow: 0 1px 8px #000; }
 	.detail-copy { max-width: 510px; }
@@ -95,8 +100,13 @@ const isConcept = product.status === 'Conceito';
 	.detail-status { display: inline-block; margin: 0 0 20px; padding: 6px 9px; border: 1px solid rgba(159,185,169,.35); color: #b8c9bc; letter-spacing: .08em; }
 	.detail-status.is-concept { color: #c9a889; border-color: rgba(201,168,137,.4); }
 	.detail-copy h1 { margin: 0; font: 400 clamp(46px, 6vw, 76px)/.98 var(--font-display); letter-spacing: .02em; }
-	.detail-finish { margin: 16px 0 0; color: var(--gold-light); font: 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
 	.detail-description { max-width: 440px; margin: 28px 0; color: var(--text-sand); font: 15px/1.8 var(--font-sans); }
+	.detail-dossier { margin: 28px 0; border-top: 1px solid var(--border-gold-subtle); }
+	.detail-dossier > div { display: grid; grid-template-columns: minmax(105px, .7fr) 1.3fr; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-gold-subtle); }
+	.detail-dossier dt { color: var(--text-muted); font: 9px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+	.detail-dossier dd { margin: 0; color: var(--text-bone); font-size: 12px; line-height: 1.5; text-align: right; }
+	.detail-dossier .dossier-price { color: var(--gold-pale); font: 500 18px var(--font-mono); }
+	.detail-dossier .dossier-price small { color: var(--text-muted); font-size: 9px; }
 	.detail-disclaimer { margin: 18px 0 25px; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
 	.contact-request { display: grid; grid-template-columns: minmax(240px, .8fr) minmax(0, 1.2fr); gap: clamp(32px, 7vw, 100px); margin-top: 88px; padding: clamp(26px, 5vw, 64px); border: 1px solid rgba(200,169,126,.22); background: linear-gradient(140deg, rgba(200,169,126,.07), rgba(255,255,255,.015)); }
 	.contact-intro h2 { margin: 0 0 18px; color: var(--text-bone); font: 400 clamp(34px, 4vw, 52px)/1 var(--font-display); }

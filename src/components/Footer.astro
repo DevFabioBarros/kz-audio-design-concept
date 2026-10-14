@@ -1,12 +1,15 @@
 ---
 import Button from './Button.astro';
+import { Image } from 'astro:assets';
+import KzMark from '../assets/logos/kz-mark.svg';
+import rolexLogo from '../assets/logos/rolex.png';
 ---
 
 <footer class="luxury-footer">
 	<div class="footer-wordmark brand-lockup" role="img" aria-label="KZ e Rolex — conceito visual não oficial">
-		<span class="kz-mark"><img src="/logos/kz-mark.svg" alt="" /></span>
+		<span class="kz-mark"><KzMark aria-hidden="true" /></span>
 		<span class="brand-cross" aria-hidden="true">×</span>
-		<img class="rolex-mark" src="/logos/rolex.png" alt="" />
+		<Image class="rolex-mark" src={rolexLogo} alt="" width={224} height={126} format="webp" />
 	</div>
 
 	<div class="footer-grid">

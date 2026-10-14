@@ -1,6 +1,9 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import socialImage from '../assets/products/imperial-pave.jpg';
+import favicon from '../assets/icons/favicon.svg?url&no-inline';
+import '../styles/luxury.css';
 
 const {
 	title = 'KZ × ROLEX — Conceito visual não oficial',
@@ -13,7 +16,7 @@ const {
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+		<link rel="icon" type="image/svg+xml" href={favicon} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
@@ -21,12 +24,11 @@ const {
 		<meta name="theme-color" content="#020202" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/produtos/imperial-pave.jpg" />
+		<meta property="og:image" content={socialImage.src} />
 		<meta property="og:type" content="website" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="/css/luxury.css" />
+		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
 	</head>
 	<body>
 		<Header />

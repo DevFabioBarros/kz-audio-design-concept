@@ -1,12 +1,15 @@
 ---
 import Button from './Button.astro';
+import { Image } from 'astro:assets';
+import KzMark from '../assets/logos/kz-mark.svg';
+import rolexLogo from '../assets/logos/rolex.png';
 ---
 
 <header class="luxury-header" id="luxury-nav-header">
 	<a href="/#hero-scroll-track" class="brand-logo brand-lockup" id="header-brand-logo" aria-label="KZ e Rolex — conceito visual não oficial">
-		<span class="kz-mark"><img src="/logos/kz-mark.svg" alt="" /></span>
+		<span class="kz-mark"><KzMark aria-hidden="true" /></span>
 		<span class="brand-cross" aria-hidden="true">×</span>
-		<img class="rolex-mark" src="/logos/rolex.png" alt="" />
+		<Image class="rolex-mark" src={rolexLogo} alt="" width={224} height={126} format="webp" />
 	</a>
 
 	<nav class="nav-menu" aria-label="Navegação Principal">
@@ -18,7 +21,7 @@ import Button from './Button.astro';
 	<div class="header-actions">
 		<Button href="/produtos" id="btn-acquire-nav">
 			<span>VER COLEÇÃO</span>
-			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+			<span aria-hidden="true">↗</span>
 		</Button>
 	</div>
 </header>
