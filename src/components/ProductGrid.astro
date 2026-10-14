@@ -19,9 +19,9 @@ const { showHeading = true, compact = false } = Astro.props;
 			<p class="collection-intro">Nove interpretações de uma mesma obsessão: transformar a escuta em experiência. Descubra os acabamentos e encontre a sua edição.</p>
 		</header>
 	)}
-	<div class="product-grid reveal-stagger" aria-label="Nove produtos da coleção">
+	<div class="product-grid" aria-label="Nove produtos da coleção">
 		{products.map((product, index) => (
-			<article id={`product-${product.slug}`} class:list={['product-card', { 'product-card-featured': index === 0 && !compact }]} style={`--reveal-delay: ${index * 75}ms`}>
+			<article id={`product-${product.slug}`} class:list={['product-card', 'reveal', { 'product-card-featured': index === 0 && !compact }]}>
 				<a class="product-image" href={`/produtos/${product.slug}`} aria-label={`Conheça ${product.name}`}>
 					<img src={product.image} alt={product.alt} loading={index < 3 ? 'eager' : 'lazy'} width="1254" height="1254" />
 					<span class="image-index">{String(index + 1).padStart(2, '0')}</span>
@@ -52,7 +52,12 @@ const { showHeading = true, compact = false } = Astro.props;
 	.collection-heading h2 em { color: var(--gold-light); font-family: var(--font-serif); font-weight: 400; }
 	.collection-intro { max-width: 390px; margin: 0 0 4px; color: var(--text-sand); font-size: 14px; line-height: 1.8; }
 	.product-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 22px; }
-	.product-card { min-width: 0; scroll-margin-top: 132px; }
+	.product-card { position: relative; min-width: 0; scroll-margin-top: 132px; }
+	.product-card.is-shining { z-index: 1; }
+	.product-card.is-shining::after { position: absolute; z-index: 2; inset: -1px; border: 1px solid rgba(245, 219, 169, .8); box-shadow: 0 0 22px rgba(232, 178, 90, .18), inset 0 0 18px rgba(232, 178, 90, .08); content: ''; pointer-events: none; animation: product-frame-glow 1.7s var(--ease-luxury) both; }
+	.product-card.is-shining .product-image::before { position: absolute; z-index: 1; top: -18%; bottom: -18%; left: -62%; width: 44%; background: linear-gradient(104deg, transparent, rgba(255,255,255,.12) 31%, rgba(255,249,231,.82) 48%, rgba(232,178,90,.38) 54%, transparent 74%); content: ''; filter: blur(2px); opacity: 0; pointer-events: none; transform: skewX(-16deg); animation: product-image-glint 1.45s var(--ease-luxury) both; }
+	@keyframes product-frame-glow { 0%, 100% { border-color: transparent; box-shadow: none; opacity: 0; } 18% { border-color: rgba(255, 231, 184, .9); box-shadow: 0 0 26px rgba(232, 178, 90, .2), inset 0 0 18px rgba(232, 178, 90, .08); opacity: 1; } 68% { opacity: .56; } }
+	@keyframes product-image-glint { 0% { opacity: 0; transform: translateX(0) skewX(-16deg); } 16% { opacity: .8; } 48% { opacity: .38; } 100% { opacity: 0; transform: translateX(420%) skewX(-16deg); } }
 	.product-image { position: relative; display: block; aspect-ratio: 1 / 1.08; overflow: hidden; background: #090807; }
 	.product-image::after { position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.38)); content: ''; pointer-events: none; }
 	.product-image img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }

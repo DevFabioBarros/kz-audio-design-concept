@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initHeaderScroll();
+  initMaterialRouteHighlights();
 });
 
 function initScrollAnimations() {
@@ -44,4 +45,35 @@ function initHeaderScroll() {
   window.addEventListener('scroll', () => {
     header.classList.toggle('scrolled', window.scrollY > 80);
   }, { passive: true });
+}
+
+function initMaterialRouteHighlights() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let pendingHighlight;
+  const viewportInset = Math.min(220, window.innerHeight * 0.28);
+  document.querySelectorAll('.material-route').forEach(route => {
+    route.addEventListener('click', () => {
+      const target = document.querySelector(route.hash);
+      if (!target) return;
+
+      pendingHighlight?.disconnect();
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        observer.disconnect();
+
+        target.classList.remove('is-shining');
+        const finishShine = event => {
+          if (event.target !== target || event.animationName !== 'product-frame-glow') return;
+          target.classList.remove('is-shining');
+          target.removeEventListener('animationend', finishShine);
+        };
+        target.addEventListener('animationend', finishShine);
+        requestAnimationFrame(() => target.classList.add('is-shining'));
+      }, { rootMargin: `-${viewportInset}px 0px -${viewportInset}px 0px` });
+
+      pendingHighlight = observer;
+      observer.observe(target);
+    });
+  });
 }
