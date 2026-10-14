@@ -45,12 +45,15 @@ function initCollectionScrollFilm() {
 
   const progressLabel = track.querySelector('[data-scroll-film-progress]');
   let frameRequest = 0;
-  let seeking = false;
   let targetTime = 0;
   let displayedTime = 0;
+  let lastTimestamp = 0;
+  let lastSeek = 0;
   track.classList.add('is-scroll-active');
+  video.preload = 'auto';
+  video.load();
 
-  function updateFrame() {
+  function updateFrame(timestamp) {
     frameRequest = 0;
     const scrollRange = track.offsetHeight - window.innerHeight;
     const progress = scrollRange > 0
@@ -62,11 +65,16 @@ function initCollectionScrollFilm() {
     if (video.readyState < HTMLMediaElement.HAVE_METADATA || !video.duration) return;
 
     targetTime = progress * Math.max(0, video.duration - 0.05);
-    if (seeking || Math.abs(targetTime - displayedTime) < 0.015) return;
+    const elapsed = lastTimestamp ? Math.min(timestamp - lastTimestamp, 64) : 16;
+    lastTimestamp = timestamp;
+    displayedTime += (targetTime - displayedTime) * (1 - Math.exp(-elapsed / 90));
 
-    displayedTime += (targetTime - displayedTime) * 0.35;
-    seeking = true;
-    video.currentTime = displayedTime;
+    if (!video.seeking && timestamp - lastSeek >= 40 && Math.abs(displayedTime - video.currentTime) > 0.025) {
+      video.currentTime = displayedTime;
+      lastSeek = timestamp;
+    }
+
+    if (video.seeking || Math.abs(targetTime - video.currentTime) > 0.05) requestFrameUpdate();
   }
 
   function requestFrameUpdate() {
@@ -75,10 +83,7 @@ function initCollectionScrollFilm() {
 
   video.addEventListener('loadedmetadata', requestFrameUpdate, { once: true });
   video.addEventListener('error', () => track.classList.remove('is-scroll-active'), { once: true });
-  video.addEventListener('seeked', () => {
-    seeking = false;
-    if (Math.abs(targetTime - displayedTime) >= 0.015) requestFrameUpdate();
-  });
+  video.addEventListener('seeked', requestFrameUpdate);
   window.addEventListener('scroll', requestFrameUpdate, { passive: true });
   window.addEventListener('resize', requestFrameUpdate, { passive: true });
   requestFrameUpdate();

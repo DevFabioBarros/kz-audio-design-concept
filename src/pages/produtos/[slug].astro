@@ -88,7 +88,7 @@ const isConcept = product.status === 'Conceito';
 	.breadcrumbs a:hover { color: var(--gold-light); }
 	.detail-layout { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(340px, .88fr); align-items: center; gap: clamp(40px, 7vw, 100px); }
 	.detail-image { position: relative; margin: 0; background: #090807; }
-	.detail-image img { display: block; width: 100%; max-height: 720px; aspect-ratio: 1 / 1.04; object-fit: cover; }
+	.detail-image img { display: block; width: 100%; max-height: 720px; aspect-ratio: 1; object-fit: contain; }
 	.detail-image figcaption { position: absolute; right: 18px; bottom: 16px; color: #f2eee7; font: 9px var(--font-mono); letter-spacing: .14em; text-shadow: 0 1px 8px #000; }
 	.detail-copy { max-width: 510px; }
 	.detail-kicker, .detail-status { margin: 0 0 12px; color: #9fb9a9; font: 10px var(--font-mono); letter-spacing: .16em; text-transform: uppercase; }

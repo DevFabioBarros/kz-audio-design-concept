@@ -1661,6 +1661,19 @@ body {
 .footer-bottom-bar a { color: inherit; text-decoration-color: var(--gold-dark); text-underline-offset: 3px; }
 .footer-bottom-bar a:hover { color: var(--gold-light); }
 
+.footer-author {
+  max-width: 1380px;
+  margin: 16px auto 0;
+  color: rgba(142, 131, 115, 0.58);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+.footer-author a { color: inherit; text-decoration: none; transition: color 0.25s ease; }
+.footer-author a:hover, .footer-author a:focus-visible { color: var(--gold-primary); }
+
 .cinema-theater-wrapper {
   position: relative;
   width: min(100%, 1240px);
@@ -1875,6 +1888,7 @@ body {
   .footer-grid { gap: 28px; margin-bottom: 36px; }
   .footer-col { min-width: 0; }
   .footer-bottom-bar { font-size: 8px; letter-spacing: .08em; line-height: 1.7; overflow-wrap: anywhere; }
+  .footer-author { text-align: center; }
   .footer-wordmark.brand-lockup { transform: scale(.82); transform-origin: center; margin-bottom: 18px;
   }
 }
