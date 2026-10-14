@@ -4,7 +4,7 @@ import { runInNewContext } from 'node:vm';
 import test from 'node:test';
 
 test('material routes trigger a one-pass gold sheen on the destination product card', async () => {
-	const script = await readFile(new URL('../public/js/luxury.js', import.meta.url), 'utf8');
+	const script = await readFile(new URL('../src/scripts/luxury.js', import.meta.url), 'utf8');
 	const grid = await readFile(new URL('../src/components/ProductGrid.astro', import.meta.url), 'utf8');
 	const detail = await readFile(new URL('../src/pages/produtos/[slug].astro', import.meta.url), 'utf8');
 	let onReady;
@@ -34,9 +34,9 @@ test('material routes trigger a one-pass gold sheen on the destination product c
 		getElementById() { return null; },
 		createElementNS() { return { setAttribute() {}, append() {}, addEventListener() {} }; },
 	};
-	const window = { innerHeight: 800, matchMedia: () => ({ matches: false }), addEventListener() {} };
+	const window = { innerHeight: 800, matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener() {} };
 
-	runInNewContext(script, { document, window, IntersectionObserver: TestIntersectionObserver, requestAnimationFrame: callback => callback() });
+	runInNewContext(script, { document, window, IntersectionObserver: TestIntersectionObserver, AbortController, requestAnimationFrame: callback => callback() });
 	onReady();
 	const click = { defaultPrevented: false, preventDefault() { this.defaultPrevented = true; } };
 	route.onClick(click);

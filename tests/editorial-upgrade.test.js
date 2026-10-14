@@ -12,7 +12,7 @@ test('home combines atelier storytelling and removes the repeated design fold', 
 
 test('mobile hero avoids loading the background video and displays its prioritized poster', async () => {
 	const home = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
-	const script = await readFile(new URL('../public/js/luxury.js', import.meta.url), 'utf8');
+	const script = await readFile(new URL('../src/scripts/luxury.js', import.meta.url), 'utf8');
 
 	assert.match(home, /<video[^>]*data-src=\{commercialFilm\}[^>]*preload="none"/s, 'video source should be deferred until JavaScript opts into desktop playback');
 	assert.match(home, /<video[^>]*data-poster=\{filmPoster\.src\}/s, 'the video poster should also be deferred because mobile already renders its own poster image');
@@ -37,4 +37,22 @@ test('product details show a visual dossier with the existing illustrative price
 	assert.match(detail, /product\.price/, 'the dossier should use the existing illustrative product price');
 	assert.match(detail, /Conceito visual não oficial/, 'the existing non-official concept disclaimer should remain');
 	assert.match(detail, /data-contact-prototype/, 'the contact prototype should remain available');
+});
+
+test('Astro client navigation persists shared chrome and initializes page behavior after every swap', async () => {
+	const layout = await readFile(new URL('../src/layouts/Layout.astro', import.meta.url), 'utf8');
+	const header = await readFile(new URL('../src/components/Header.astro', import.meta.url), 'utf8');
+	const footer = await readFile(new URL('../src/components/Footer.astro', import.meta.url), 'utf8');
+	const detail = await readFile(new URL('../src/pages/produtos/[slug].astro', import.meta.url), 'utf8');
+	const script = await readFile(new URL('../src/scripts/luxury.js', import.meta.url), 'utf8');
+
+	assert.match(layout, /import\s*\{\s*ClientRouter\s*\}\s*from\s*['"]astro:transitions['"]/, 'the shared layout should enable Astro client navigation');
+	assert.match(layout, /<ClientRouter\s*\/>/, 'the router should be rendered on every route');
+	assert.match(layout, /<script\s+src=['"]\.\.\/scripts\/luxury\.js['"]\s*>\s*<\/script>/, 'the shared browser script should be bundled by Astro');
+	assert.doesNotMatch(layout, /is:inline\s+src=['"]\/js\/luxury\.js/, 'the old unbundled public script should be removed');
+	assert.match(header, /<header[^>]*transition:persist=['"]site-header['"]/, 'header state should persist across navigations');
+	assert.match(footer, /<footer[^>]*transition:persist=['"]site-footer['"]/, 'footer should persist across navigations');
+	assert.match(script, /astro:page-load/, 'page-specific interactions should initialize after router swaps');
+	assert.match(detail, /data-contact-prototype/, 'contact behavior should be selected from the globally initialized script');
+	assert.doesNotMatch(detail, /<script>/, 'the detail page should not rely on a one-time page module script');
 });

@@ -23,7 +23,7 @@ function element(dataset = {}) {
 }
 
 test('choosing a finish updates its product details, links, and accessible selected state', async () => {
-	const script = await readFile(new URL('../public/js/luxury.js', import.meta.url), 'utf8');
+	const script = await readFile(new URL('../src/scripts/luxury.js', import.meta.url), 'utf8');
 	let onReady;
 	const firstChoice = element({ title: 'Ouro & lapidação', name: 'Imperial Pavé', finish: 'Ouro 24K', description: 'Ouro polido', count: '03 edições', image: '/one.jpg', alt: 'Fone dourado', slug: 'imperial-pave' });
 	const selectedChoice = element({ title: 'Noir técnico', name: 'Obsidian Stage', finish: 'Preto · Filete dourado', description: 'Linhas escuras', count: '02 edições', image: '/two.jpg', alt: 'Fone preto', slug: 'obsidian-stage' });
@@ -52,9 +52,9 @@ test('choosing a finish updates its product details, links, and accessible selec
 		getElementById: () => null,
 	};
 	class IntersectionObserver { observe() {} disconnect() {} }
-	const window = { matchMedia: () => ({ matches: false }), addEventListener() {}, innerHeight: 800 };
+	const window = { matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener() {}, innerHeight: 800 };
 
-	runInNewContext(script, { document, window, IntersectionObserver, requestAnimationFrame: callback => callback() });
+	runInNewContext(script, { document, window, IntersectionObserver, AbortController, requestAnimationFrame: callback => callback() });
 	onReady();
 	assert.equal(typeof selectedChoice.listeners.click, 'function', 'finish choices should react to selection');
 	selectedChoice.listeners.click();

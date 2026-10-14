@@ -1,11 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-  initScrollAnimations();
-  initHeaderScroll();
-  initMaterialSelector();
-  initMaterialRouteHighlights();
-});
+let pageController;
+let pageObservers = [];
 
-function initScrollAnimations() {
+document.addEventListener('astro:page-load', initPage);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initPage, { once: true });
+} else {
+  initPage();
+}
+
+initHeaderScroll();
+
+function initPage() {
+  pageController?.abort();
+  pageObservers.forEach(observer => observer.disconnect());
+  pageObservers = [];
+  pageController = new AbortController();
+  const { signal } = pageController;
+
+  initScrollAnimations(signal);
+  initMaterialSelector(signal);
+  initMaterialRouteHighlights(signal);
+  initContactPrototype(signal);
+}
+
+function initScrollAnimations(signal) {
   const hero = document.querySelector('.film-hero');
   const heroVideo = hero?.querySelector('.film-video');
   const heroCaption = hero?.querySelector('.film-caption');
@@ -26,7 +44,7 @@ function initScrollAnimations() {
     }
   };
   syncHeroVideo();
-  heroVideoMode.addEventListener?.('change', syncHeroVideo);
+  heroVideoMode.addEventListener('change', syncHeroVideo, { signal });
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const revealElements = document.querySelectorAll('.reveal, .reveal-stagger, .expand-line');
 
@@ -43,7 +61,7 @@ function initScrollAnimations() {
     heroVideo.style.transform = `scale(${1.08 - progress * 0.08}) translateY(${progress * 18}px)`;
     heroCaption?.style.setProperty('--hero-scroll-shift', `${progress * 64}px`);
     if (heroCopy) heroCopy.style.opacity = `${1 - progress * 1.25}`;
-  }, { passive: true });
+  }, { passive: true, signal });
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -52,6 +70,7 @@ function initScrollAnimations() {
       observer.unobserve(entry.target);
     });
   }, { threshold: 0.01, rootMargin: '0px 0px -40px 0px' });
+  pageObservers.push(observer);
 
   revealElements.forEach(element => observer.observe(element));
 }
@@ -60,12 +79,12 @@ function initHeaderScroll() {
   const header = document.getElementById('luxury-nav-header');
   if (!header) return;
 
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 80);
-  }, { passive: true });
+  const updateHeader = () => header.classList.toggle('scrolled', window.scrollY > 80);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
 }
 
-function initMaterialSelector() {
+function initMaterialSelector(signal) {
   const selector = document.querySelector('[data-material-selector]');
   if (!selector) return;
 
@@ -107,21 +126,19 @@ function initMaterialSelector() {
       route.setAttribute('aria-label', `Encontrar ${selectedName} no catálogo`);
       stage.classList.remove('is-transitioning');
       requestAnimationFrame(() => stage.classList.add('is-transitioning'));
-    });
+    }, { signal });
   });
 }
 
-function initMaterialRouteHighlights() {
+function initMaterialRouteHighlights(signal) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  let pendingHighlight;
   const viewportInset = Math.min(220, window.innerHeight * 0.28);
   document.querySelectorAll('.material-route').forEach(route => {
     route.addEventListener('click', () => {
       const target = document.querySelector(route.hash);
       if (!target) return;
 
-      pendingHighlight?.disconnect();
       const observer = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) return;
         observer.disconnect();
@@ -132,12 +149,31 @@ function initMaterialRouteHighlights() {
           target.classList.remove('is-shining');
           target.removeEventListener('animationend', finishShine);
         };
-        target.addEventListener('animationend', finishShine);
-        requestAnimationFrame(() => target.classList.add('is-shining'));
+        target.addEventListener('animationend', finishShine, { signal });
+        requestAnimationFrame(() => {
+          if (!signal.aborted) target.classList.add('is-shining');
+        });
       }, { rootMargin: `-${viewportInset}px 0px -${viewportInset}px 0px` });
 
-      pendingHighlight = observer;
+      pageObservers.push(observer);
       observer.observe(target);
-    });
+    }, { signal });
   });
+}
+
+function initContactPrototype(signal) {
+  const contactPrototype = document.querySelector('[data-contact-prototype]');
+  if (!contactPrototype) return;
+
+  const fields = Array.from(contactPrototype.querySelectorAll('input, select, textarea'));
+  const submitButton = contactPrototype.querySelector('[data-contact-submit]');
+  const status = contactPrototype.querySelector('[data-contact-status]');
+  submitButton?.addEventListener('click', () => {
+    const invalidField = fields.find(field => !field.checkValidity());
+    if (invalidField) {
+      invalidField.reportValidity();
+      return;
+    }
+    if (status) status.textContent = 'Protótipo: nenhum dado foi enviado ou salvo. O envio ao e-mail da empresa ainda não está conectado.';
+  }, { signal });
 }

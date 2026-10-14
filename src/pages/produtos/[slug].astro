@@ -21,6 +21,7 @@ const isConcept = product.status === 'Conceito';
 <Layout
 	title={`${product.name} — KZ × ROLEX, conceito visual não oficial`}
 	description={`${product.description} ${product.finish}. Estudo visual não oficial; valores e disponibilidade devem ser confirmados.`}
+	image={product.image}
 >
 	<main class="product-detail">
 		<nav class="breadcrumbs" aria-label="Você está em">
@@ -140,20 +141,3 @@ const isConcept = product.status === 'Conceito';
 	@media (max-width: 520px) { .contact-fields { grid-template-columns: 1fr; } .contact-request { padding: 22px 18px; } .detail-copy h1 { font-size: clamp(42px, 13vw, 60px); } .detail-pagination { gap: 14px; } .detail-pagination strong { font-size: 16px; } }
 	@media (prefers-reduced-motion: reduce) { .detail-image, .detail-copy { opacity: 1; filter: none; transform: none; transition: none; } }
 </style>
-
-<script>
-	const contactPrototype = document.querySelector<HTMLElement>('[data-contact-prototype]');
-	if (contactPrototype) {
-		const fields = Array.from(contactPrototype.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea'));
-		const submitButton = contactPrototype.querySelector<HTMLButtonElement>('[data-contact-submit]');
-		const status = contactPrototype.querySelector<HTMLElement>('[data-contact-status]');
-		submitButton?.addEventListener('click', () => {
-			const invalidField = fields.find((field) => !field.checkValidity());
-			if (invalidField) {
-				invalidField.reportValidity();
-				return;
-			}
-			if (status) status.textContent = 'Protótipo: nenhum dado foi enviado ou salvo. O envio ao e-mail da empresa ainda não está conectado.';
-		});
-	}
-</script>

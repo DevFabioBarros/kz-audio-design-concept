@@ -1,14 +1,26 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { ClientRouter } from 'astro:transitions';
+import type { ImageMetadata } from 'astro';
 import socialImage from '../assets/products/imperial-pave.jpg';
 import favicon from '../assets/icons/favicon.svg?url&no-inline';
 import '../styles/luxury.css';
 
+interface Props {
+	title?: string;
+	description?: string;
+	canonicalURL?: string;
+	image?: string | ImageMetadata;
+}
+
 const {
 	title = 'KZ × ROLEX — Conceito visual não oficial',
 	description = 'Estudo visual conceitual que aproxima o design acústico da KZ de uma linguagem clássica de relojoaria. Não representa uma parceria oficial.',
-} = Astro.props;
+	canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href,
+	image = socialImage,
+}: Props = Astro.props;
+const imageURL = new URL(typeof image === 'string' ? image : image.src, Astro.site ?? Astro.url).href;
 const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap';
 ---
 
@@ -21,16 +33,23 @@ const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&fami
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
 		<meta name="keywords" content="KZ, conceito visual, estudo de design, fones de ouvido, áudio premium, relojoaria" />
 		<meta name="theme-color" content="#020202" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content={socialImage.src} />
+		<meta property="og:image" content={imageURL} />
+		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={imageURL} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="preload" as="style" href={fontStylesheet} onload="this.onload=null;this.rel='stylesheet'" />
 		<noscript><link href={fontStylesheet} rel="stylesheet" /></noscript>
+		<ClientRouter />
 	</head>
 	<body>
 		<Header />
@@ -39,7 +58,7 @@ const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&fami
 
 		<Footer />
 
-		<script is:inline src="/js/luxury.js"></script>
+		<script src="../scripts/luxury.js"></script>
 	</body>
 </html>
 
