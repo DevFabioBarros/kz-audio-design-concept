@@ -27,7 +27,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 					<p class="hero-eyebrow"><span class="partnership-mark">KZ × ROLEX</span> · CONCEITO VISUAL NÃO OFICIAL</p>
 					<h1 id="hero-title">Precisão<br /><em>em harmonia.</em></h1>
 					<p class="hero-description">Nove edições. Uma nova maneira de sentir cada detalhe.</p>
-					<a class="hero-link" href="/produtos">Explore a coleção <span aria-hidden="true">↗</span></a>
+					<a class="hero-link" href="/catalogo">Explore a coleção <span aria-hidden="true">↗</span></a>
 				</div>
 			</div>
 			<span class="film-index" aria-hidden="true">FILME 02 / ESTUDO VISUAL</span>
@@ -50,7 +50,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 						<li><span>{product.name}</span><small>{product.finish}</small></li>
 					))}
 				</ul>
-				<a class="atelier-link" href="/produtos">Ver coleção e valores <span aria-hidden="true">↗</span></a>
+				<a class="atelier-link" href="/catalogo">Ver coleção e valores <span aria-hidden="true">↗</span></a>
 			</div>
 			<div class="atelier-image reveal reveal-from-right">
 				<Image src={products[0].image} alt="Detalhe da edição Imperial Pavé no estudo visual KZ × ROLEX" loading="lazy" layout="constrained" sizes="(max-width: 700px) calc(100vw - 32px), 46vw" width={1254} height={1254} />
@@ -88,7 +88,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 		<section class="selection-fold" aria-labelledby="selection-title">
 			<header class="selection-heading reveal">
 				<div><p class="eyebrow">EDIÇÕES EM DESTAQUE · 03 DE 09</p><h2 id="selection-title">Uma coleção.<br /><em>Nove expressões.</em></h2></div>
-			<a href="/produtos" class="atelier-link">Ver todas as edições <span aria-hidden="true">↗</span></a>
+			<a href="/catalogo" class="atelier-link">Ver todas as edições <span aria-hidden="true">↗</span></a>
 			</header>
 			<div class="selection-grid reveal-stagger">
 				{featuredProducts.map((product, index) => (
@@ -105,7 +105,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 			<p class="eyebrow">A COLEÇÃO COMPLETA · NOVE EDIÇÕES</p>
 			<h2 id="home-collection-cta-title">Encontre a sua<br /><em>maneira de ouvir.</em></h2>
 			<p>Explore acabamentos, detalhes e valores de cada edição.</p>
-			<Button href="/produtos" className="home-collection-cta-button">Descobrir a coleção <span aria-hidden="true">↗</span></Button>
+			<Button href="/catalogo" className="home-collection-cta-button">Descobrir a coleção <span aria-hidden="true">↗</span></Button>
 		</section>
 	</main>
 </Layout>

@@ -17,7 +17,7 @@ test('layout exposes canonical Open Graph and Twitter metadata with absolute soc
 
 test('every route supplies a social preview image suited to its content', async () => {
 	const home = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
-	const catalog = await readFile(new URL('../src/pages/produtos.astro', import.meta.url), 'utf8');
+	const catalog = await readFile(new URL('../src/pages/catalogo.astro', import.meta.url), 'utf8');
 	const detail = await readFile(new URL('../src/pages/produtos/[slug].astro', import.meta.url), 'utf8');
 
 	assert.match(home, /<Layout[\s\S]*?image=\{products\[0\]\.image\}/, 'home should use its featured product image');

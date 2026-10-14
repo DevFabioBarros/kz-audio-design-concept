@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 test('product introduction offers an accessible finish selector and keeps direct catalog navigation', async () => {
-	const page = await readFile(new URL('../src/pages/produtos.astro', import.meta.url), 'utf8');
+	const page = await readFile(new URL('../src/pages/catalogo.astro', import.meta.url), 'utf8');
 	const grid = await readFile(new URL('../src/components/ProductGrid.astro', import.meta.url), 'utf8');
 
 	assert.ok(page.includes('materialJourneys'), 'catalog should organize editions by visual material');
