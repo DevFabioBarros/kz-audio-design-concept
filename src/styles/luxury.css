@@ -1898,6 +1898,17 @@ body {
   }
 }
 
+@media (max-width: 700px) {
+  .reveal,
+  .reveal.is-active,
+  .reveal-stagger > *,
+  .reveal-stagger.is-active > * {
+    filter: none;
+    transition-property: opacity, transform;
+    will-change: auto;
+  }
+}
+
 @media (max-width: 360px) {
   .luxury-header { padding-inline: 9px; }
   .luxury-header .kz-mark { width: 58px; height: 35px; }

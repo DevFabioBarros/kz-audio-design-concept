@@ -9,6 +9,7 @@ const {
 	title = 'KZ × ROLEX — Conceito visual não oficial',
 	description = 'Estudo visual conceitual que aproxima o design acústico da KZ de uma linguagem clássica de relojoaria. Não representa uma parceria oficial.',
 } = Astro.props;
+const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap';
 ---
 
 <!doctype html>
@@ -28,7 +29,8 @@ const {
 		<meta property="og:type" content="website" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+		<link rel="preload" as="style" href={fontStylesheet} onload="this.onload=null;this.rel='stylesheet'" />
+		<noscript><link href={fontStylesheet} rel="stylesheet" /></noscript>
 	</head>
 	<body>
 		<Header />

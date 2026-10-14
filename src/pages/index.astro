@@ -17,7 +17,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 	<main>
 		<section class="film-hero" id="hero-scroll-track" aria-labelledby="hero-title">
 			<Image class="film-poster" src={products[0].image} alt="" layout="constrained" sizes="100vw" width={1254} height={1254} loading="eager" fetchpriority="high" />
-			<video class="film-video" src={commercialFilm} autoplay muted loop playsinline preload="metadata" poster={filmPoster.src} aria-label="Filme conceitual KZ × ROLEX">
+			<video class="film-video" data-src={commercialFilm} data-poster={filmPoster.src} autoplay muted loop playsinline preload="none" aria-label="Filme conceitual KZ × ROLEX">
 				Seu navegador não suporta reprodução de vídeo.
 			</video>
 			<div class="film-shade" aria-hidden="true"></div>
@@ -52,7 +52,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 				<a class="atelier-link" href="/produtos">Ver coleção e valores <span aria-hidden="true">↗</span></a>
 			</div>
 			<div class="atelier-image reveal reveal-from-right">
-				<Image src={products[0].image} alt="Detalhe da edição Imperial Pavé no estudo visual KZ × ROLEX" loading="lazy" width={1254} height={1254} />
+				<Image src={products[0].image} alt="Detalhe da edição Imperial Pavé no estudo visual KZ × ROLEX" loading="lazy" layout="constrained" sizes="(max-width: 700px) calc(100vw - 32px), 46vw" width={1254} height={1254} />
 				<span>01 — IMPERIAL PAVÉ</span>
 			</div>
 		</section>
@@ -76,7 +76,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 			<div class="materials-grid reveal-stagger">
 				{[products[0], products[2], products[6]].map((product, index) => (
 					<article class="material-card" style={`--reveal-delay: ${index * 120}ms`}>
-						<Image src={product.image} alt={product.alt} loading="lazy" width={1254} height={1254} />
+						<Image src={product.image} alt={product.alt} loading="lazy" layout="constrained" sizes="(max-width: 700px) calc(100vw - 32px), (max-width: 1304px) 33vw, 400px" width={1254} height={1254} />
 						<div><span>{product.finish}</span><h3>{product.name}</h3></div>
 					</article>
 				))}
@@ -92,7 +92,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 			<div class="selection-grid reveal-stagger">
 				{featuredProducts.map((product, index) => (
 					<a class="selection-card" href={`/produtos/${product.slug}`} style={`--reveal-delay: ${index * 120}ms`}>
-						<Image src={product.image} alt={product.alt} loading="lazy" width={1254} height={1254} />
+						<Image src={product.image} alt={product.alt} loading="lazy" layout="constrained" sizes="(max-width: 700px) calc(100vw - 32px), (max-width: 1304px) 33vw, 400px" width={1254} height={1254} />
 						<span>{product.finish}</span><h3>{product.name}</h3>
 					</a>
 				))}
@@ -112,7 +112,10 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 <style>
 	:global(body) { background: #100f0d; }
 	.film-hero { position: relative; min-height: min(900px, 100svh); height: 820px; max-height: 100svh; overflow: hidden; background: #090807; color: #f2eee7; }
-	.film-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.08); will-change: transform; }
+	.film-video { position: absolute; inset: 0; display: none; width: 100%; height: 100%; object-fit: cover; object-position: center; transform: scale(1.08); will-change: transform; }
+	.film-hero .film-poster { display: block; }
+	.film-hero.has-film-video .film-video { display: block; }
+	.film-hero.has-film-video .film-poster { display: none; }
 	.film-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,7,6,.84) 0%, rgba(8,7,6,.48) 40%, rgba(8,7,6,.08) 78%), linear-gradient(0deg, rgba(8,7,6,.42), transparent 28%); }
 	.film-caption { position: absolute; top: 50%; left: max(8vw, calc((100vw - 1440px)/2)); width: min(590px, 80vw); --caption-offset: -38%; transform: translateY(calc(var(--caption-offset) - var(--hero-scroll-shift, 0px))); }
 	.film-copy { transition: opacity .25s ease; }
@@ -139,7 +142,7 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 	.atelier-image { position: relative; }
 	.reveal-from-right { opacity: 0; transform: translateX(38px); filter: blur(8px); transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury), filter 1s var(--ease-luxury); }
 	.reveal-from-right.is-active { opacity: 1; transform: translateX(0); filter: none; }
-	.film-poster { position: absolute; inset: 0; display: none; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+	.film-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 	.atelier-image img { display: block; width: 100%; max-height: 540px; object-fit: cover; }
 	.atelier-image span { position: absolute; right: 14px; bottom: 12px; color: #f2eee7; font: 9px var(--font-mono); letter-spacing: .16em; }
 	.sound-fold, .materials-fold, .selection-fold { width: min(100% - 64px, 1240px); margin: 0 auto; padding: 90px 0 120px; color: #f2eee7; }
@@ -179,5 +182,6 @@ const filmPoster = await getImage({ src: products[0].image, width: 1254, format:
 	@media (max-width: 700px) { .sound-fold, .materials-fold, .selection-fold { width: min(100% - 32px, 1240px); padding: 64px 0 80px; } .sound-fold { grid-template-columns: 1fr; gap: 26px; } .atelier-finish-notes li { align-items: start; flex-direction: column; gap: 4px; } .atelier-finish-notes small { text-align: left; } .materials-heading { display: block; } .materials-grid, .selection-grid { grid-template-columns: 1fr; gap: 18px; } .material-card, .material-card img { min-height: 300px; } .selection-heading { align-items: start; flex-direction: column; } .selection-heading h2 { font-size: clamp(29px, 8vw, 38px); line-height: 1.08; } }
 	@media (max-width: 700px) { .home-collection-cta { padding: 72px 20px 84px; } .home-collection-cta .eyebrow { font-size: 8px; letter-spacing: .13em; } .home-collection-cta > p:not(.eyebrow) { max-width: 300px; font-size: 13px; } .home-collection-cta :global(.home-collection-cta-button) { min-height: 48px; padding-inline: 20px; font-size: 10px; letter-spacing: .16em; } }
 	@media (max-width: 700px) { .film-hero { height: 84svh; min-height: min(600px, 100svh); } .film-video { object-position: 58% center; } .film-shade { background: linear-gradient(90deg, rgba(8,7,6,.75), rgba(8,7,6,.12)), linear-gradient(0deg, rgba(8,7,6,.48), transparent 38%); } .film-caption { left: 24px; width: calc(100% - 48px); --caption-offset: -28%; } .film-caption h1 { font-size: clamp(54px, 15vw, 90px); } .hero-eyebrow, .eyebrow { max-width: 100%; font-size: 8px; letter-spacing: .12em; line-height: 1.6; } .hero-description { max-width: 280px; font-size: 13px; line-height: 1.6; } .film-index { right: 16px; bottom: 18px; font-size: 7px; letter-spacing: .1em; } .collection-intro-band { flex-wrap: wrap; gap: 10px 16px; padding: 14px; font-size: 8px; } .atelier { grid-template-columns: 1fr; gap: 32px; width: min(100% - 32px, 1240px); padding: 20px 0 80px; } .atelier-image { order: -1; } }
+	@media (max-width: 700px) { .film-video { display: none; } .film-poster { display: block; } .reveal-from-right { filter: none; transition: opacity 1s var(--ease-luxury), transform 1s var(--ease-luxury); } }
 	@media (prefers-reduced-motion: reduce) { .film-video { display: none; transform: none; } .film-poster { display: block; } .film-copy, .reveal-from-right { opacity: 1; filter: none; transform: none; transition: none; } }
 </style>

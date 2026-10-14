@@ -17,6 +17,7 @@ test('visual assets live in src/assets and Astro templates use Astro assets for 
 	const source = await Promise.all(astroFiles.map(path => readFile(new URL(path, import.meta.url), 'utf8')));
 	const productData = await readFile(new URL('../src/data/products.ts', import.meta.url), 'utf8');
 	const layout = await readFile(new URL('../src/layouts/Layout.astro', import.meta.url), 'utf8');
+	const home = await readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8');
 	const productGrid = await readFile(new URL('../src/components/ProductGrid.astro', import.meta.url), 'utf8');
 	const productDetail = await readFile(new URL('../src/pages/produtos/[slug].astro', import.meta.url), 'utf8');
 	const stylesheet = await readFile(new URL('../src/styles/luxury.css', import.meta.url), 'utf8');
@@ -31,7 +32,8 @@ test('visual assets live in src/assets and Astro templates use Astro assets for 
 	assert.match(layout, /favicon\.svg\?url&no-inline/, 'the SVG favicon should be emitted as an external file URL');
 	assert.doesNotMatch(layout, /favicon\.ico/, 'the broken ICO fallback should no longer be linked');
 	assert.doesNotMatch(stylesheet, /@import\s+url\(['"]https:\/\/fonts\.googleapis\.com/i, 'Google Fonts should not be requested again from the render-blocking stylesheet');
-	assert.equal((layout.match(/<link href="https:\/\/fonts\.googleapis\.com/g) ?? []).length, 1, 'Google Fonts should have a single stylesheet request');
+	assert.match(layout, /rel="preload" as="style" href=\{fontStylesheet\} onload=/, 'Google Fonts should be preloaded without blocking first render');
+	assert.match(layout, /<noscript><link href=\{fontStylesheet\} rel="stylesheet" \/><\/noscript>/, 'fonts should still load when JavaScript is disabled');
 	assert.ok(source.every(content => !/<img\b/i.test(content)), 'Astro pages should render raster images with Astro Image');
 	assert.ok(source.some(content => /import\s*\{\s*Image\s*\}\s*from\s*['"]astro:assets['"]/.test(content)), 'pages should use Astro Image');
 	assert.doesNotMatch(stylesheet, /data:image/i, 'CSS should reference stored assets instead of embedding image data');
@@ -40,6 +42,8 @@ test('visual assets live in src/assets and Astro templates use Astro assets for 
 	assert.match(productGrid, /loading=\"lazy\"/, 'catalog images should load only as they approach the viewport');
 	assert.match(productGrid, /layout=\"constrained\"[^>]*sizes=/, 'catalog images should offer responsive sizes for smaller screens');
 	assert.match(productDetail, /loading=\"eager\"[^>]*fetchpriority=\"high\"/, 'the product detail image should not be lazy-loaded when it is the page focus');
+	const homeImages = [...home.matchAll(/<Image\b[^>]*>/g)].map(([tag]) => tag);
+	assert.ok(homeImages.length > 1 && homeImages.every(tag => /layout=\"constrained\"/.test(tag)), 'homepage images should offer responsive sizes on mobile');
 });
 
 test('homepage hero poster loads eagerly with high fetch priority', async () => {
