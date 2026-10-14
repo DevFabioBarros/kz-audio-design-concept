@@ -2,6 +2,7 @@
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { ClientRouter } from 'astro:transitions';
+import { getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import socialImage from '../assets/products/imperial-pave.jpg';
 import favicon from '../assets/icons/favicon.svg?url&no-inline';
@@ -12,6 +13,7 @@ interface Props {
 	description?: string;
 	canonicalURL?: string;
 	image?: string | ImageMetadata;
+	imageAlt?: string;
 }
 
 const {
@@ -19,8 +21,10 @@ const {
 	description = 'Estudo visual conceitual que aproxima o design acústico da KZ de uma linguagem clássica de relojoaria. Não representa uma parceria oficial.',
 	canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href,
 	image = socialImage,
+	imageAlt = 'Estudo visual conceitual KZ × ROLEX: design acústico com acabamento premium.',
 }: Props = Astro.props;
-const imageURL = new URL(typeof image === 'string' ? image : image.src, Astro.site ?? Astro.url).href;
+const socialPreview = await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 82, position: 'attention' });
+const imageURL = new URL(socialPreview.src, Astro.site ?? Astro.url).href;
 const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap';
 ---
 
@@ -39,12 +43,17 @@ const fontStylesheet = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&fami
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={imageURL} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:type" content="image/jpeg" />
+		<meta property="og:image:alt" content={imageAlt} />
 		<meta property="og:url" content={canonicalURL} />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content={imageURL} />
+		<meta name="twitter:image:alt" content={imageAlt} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="preload" as="style" href={fontStylesheet} onload="this.onload=null;this.rel='stylesheet'" />
